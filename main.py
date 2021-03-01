@@ -1,4 +1,3 @@
-import sys 
 
 def encrypt(message, key):
     final = ""
@@ -12,9 +11,11 @@ def encrypt(message, key):
         if message[i].isupper():
             temp = (ord(message[i]) - 65 + key)%26 + 65
             final += chr(temp)
-        else:
+        elif message[i].islower():
             temp = (ord(message[i]) - 97 + key)%26 + 97
             final += chr(temp)
+        else:
+            final += message[i]
     return final
 
 def decrypt(message, key):
@@ -29,21 +30,46 @@ def decrypt(message, key):
         if message[i].isupper():
             temp = (ord(message[i]) - 65 - key) % 26 + 65
             final += chr(temp)
-        else:
+        elif message[i].islower():
             temp = (ord(message[i]) - 97 - key) % 26 + 97
             final += chr(temp)
+        else:
+            final += message[i]
+        
     return final
 
-message = input("What is your message? ")
-key = int(input("What is your key (number)? "))
-choose = input("Do you want to encrypt or decrypt? ")
+def main():
+    files = input("What file would you like to encrypt or decrypt? ")
+    
+    choose = input("Do you want to encrypt or decrypt? ")
+    if choose != "encrypt" and choose != "decrypt": 
+        print("not valid")
+        return
+    key = int(input("What is your key (number)? "))
+    if type(key) != int:
+        print("not valid")
+        return
 
-if choose == "encrypt":
-    encrypted = encrypt(message, key)
-    print(message, "encrypted is", encrypted, "with a key of", key)
-else:
-    decrypted = decrypt(message, key)
-    print(message, "decrypted is", decrypted, "with a key of", key)
+    message = open(files, "r")
+    
+    if choose == "encrypt":
+        encrypted = encrypt(message.read(), key)
+        print("Your file has been encrypted and is labeled encrypted.txt")
+        f = open("encrypted.txt", "w")
+        f.write(encrypted)
+        f.close()
+
+    else:
+        decrypted = decrypt(message.read(), key)
+        print("Your file has been decrypted and is labeled decrypted.txt")
+        f = open("decrypted.txt", "w")
+        f.write(decrypted)
+        f.close()
+    
+    message.close()
+
+main() 
+
 
 
    
