@@ -6,3 +6,6 @@ To run the code in Vscode type
 python3 main.py
 
 The code will then proceed to ask you for your file. Make sure that you include .txt to the file name. 
+
+The either encryted or decrypted message will be labled encrypted.txt and decrypted.txt respectfully. 
+
